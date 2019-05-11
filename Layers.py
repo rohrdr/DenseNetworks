@@ -9,6 +9,7 @@ Created on Fri Feb 15 17:55:08 2019
 import numpy as np
 from ActivationFunctions import ActivationFunction
 
+
 class Layer:
     """
     a dense layer for neural networks
@@ -21,13 +22,13 @@ class Layer:
         
         """
         
-        assert( isinstance(nx, np.int))
-        assert( isinstance(ny, np.int))
-        assert( isinstance(activation_function, ActivationFunction))
+        assert(isinstance(nx, np.int))
+        assert(isinstance(ny, np.int))
+        assert(isinstance(activation_function, ActivationFunction))
         
         self.nx = nx
         self.ny = ny
-        self.W = np.random.randn(ny, nx) / np.sqrt(nx) # * 0.01
+        self.W = np.random.randn(ny, nx) / np.sqrt(nx)  # * 0.01
         self.b = np.zeros((ny, 1))
         self.AF = activation_function
         
@@ -37,50 +38,50 @@ class Layer:
         
         return
     
-    def get_Y(self, A):
+    def get_y(self, a):
         """
-        calculate output vector Y given feature vector A
+        calculate output vector Y given feature vector a
         
         """
         
-        assert(isinstance(A,np.ndarray))
-        assert(A.shape[0] == self.nx)
-        m = A.shape[1]
-        self.X = A
+        assert(isinstance(a, np.ndarray))
+        assert(a.shape[0] == self.nx)
+        m = a.shape[1]
+        self.X = a
         
-        Z = np.dot(self.W, self.X) + self.b
-        assert (Z.shape == (self.ny, m))
-        self.Z = Z
-        Y = self.AF.get_activation(self.Z)
-        assert (Y.shape == (self.ny, m))
-        self.Y = Y
+        z = np.dot(self.W, self.X) + self.b
+        assert (z.shape == (self.ny, m))
+        self.Z = z
+        y = self.AF.get_activation(self.Z)
+        assert (y.shape == (self.ny, m))
+        self.Y = y
         
         return self.Y
     
-    def get_grad(self, dA):
+    def get_grad(self, d_a):
         """
-        calculate dZ, dW and db given dA
+        calculate dZ, dW and db given d_a
         (compare notation of Andrew Ng in deeplearning.ai course on Coursera)
         
         """
         
-        assert(isinstance(dA,np.ndarray))
+        assert(isinstance(d_a, np.ndarray))
         m = self.Z.shape[1]
-        assert(dA.shape == self.Z.shape)
+        assert(d_a.shape == self.Z.shape)
         
-        dZ = dA * self.AF.get_activation_der(self.Z)
-        dW = np.dot(dZ,self.X.T) / m
-        db = np.sum(dZ, axis = 1, keepdims = True) / m
+        d_z = d_a * self.AF.get_activation_der(self.Z)
+        d_w = np.dot(d_z,self.X.T) / m
+        d_b = np.sum(d_z, axis = 1, keepdims = True) / m
         
-        return np.dot(self.W.T, dZ), dW, db
+        return np.dot(self.W.T, d_z), d_w, d_b
     
-    def update_Wb(self, dW, db):
+    def update_wb(self, d_w, d_b):
         """
         updates W und b
         
         """
         
-        self.W += dW
-        self.b += db
+        self.W += d_w
+        self.b += d_b
         
         return

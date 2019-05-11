@@ -124,7 +124,7 @@ class denseNN(NeuralNetworks):
 
         vec = X
         for lay in self.layers:
-            vec = lay.get_Y(vec)
+            vec = lay.get_y(vec)
         
         return vec
     
@@ -181,7 +181,7 @@ class denseNN(NeuralNetworks):
             dWs, dbs = self._backwardPropagation(Yhat, Y)
         
             for i, lay in enumerate(self.layers):
-                lay.update_Wb( -self.learning_rate * dWs[i], -self.learning_rate * dbs[i])
+                lay.update_wb(-self.learning_rate * dWs[i], -self.learning_rate * dbs[i])
                 
             if ( iter%print_frequency == 0):
                 print ("Iteration: " + str(iter) + "   cost: " + str(loss))

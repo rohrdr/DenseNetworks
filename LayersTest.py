@@ -39,7 +39,7 @@ def test_suite():
         lay = Layer(n_x, n_y, af)
      
         x = np.random.randn(n_x, samples)
-        y = lay.get_Y(x)
+        y = lay.get_y(x)
 
         d_x = np.ones((n_y, samples))
         d_a, d_w, d_b = lay.get_grad(d_x)
@@ -82,16 +82,16 @@ def testd_w(w, lay):
     
     lay.W = new_w
     
-    return lay.get_Y(lay.X)
+    return lay.get_y(lay.X)
 
 def testd_b(b, lay):
         
     lay.b = b
     
-    return lay.get_Y(lay.X)
+    return lay.get_y(lay.X)
 
 def test_x(x, lay):
     
     newX = x.reshape(lay.nx, int(x.shape[0] / lay.nx))
     
-    return lay.get_Y(newX)
+    return lay.get_y(newX)
