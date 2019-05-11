@@ -7,7 +7,7 @@ Created on Fri Feb 15 16:18:37 2019
 """
 
 import numpy as np
-from ActivationFunctions import Sigmoid, TanH, ReLU, leaky_ReLU, Softplus
+from ActivationFunctions import Sigmoid, TanH, ReLU, LeakyRelu, Softplus
 from Tools import eval_err, grad_num
 npoints = 4
 nsamples = 3
@@ -170,7 +170,7 @@ def leaky_relu_test(x):
         y = l_re_l.get_activation(x)
         z = np.where(x <= 0.0, 0.01 * x, x)
         
-        errmsg = err1 + " function of the leaky_ReLU" + err2
+        errmsg = err1 + " function of the LeakyRelu" + err2
     
         res = eval_err(z, y, errmsg)
         
@@ -181,14 +181,14 @@ def leaky_relu_test(x):
         y = l_re_l.get_activation_der(x)
         z = np.where(x <= 0.0, 0.01, 1.0)
     
-        errmsg = err1 + "_der function of the leaky_ReLU" + err2
+        errmsg = err1 + "_der function of the LeakyRelu" + err2
 
         res = eval_err(z, y, errmsg)
     
         return res
     
     result = []
-    l_re_l = leaky_ReLU()
+    l_re_l = LeakyRelu()
     
     result.append(test_activation(x, l_re_l))
     result.append(test_derivative(x, l_re_l))

@@ -23,14 +23,14 @@ def TestSuite():
         - Sigmoid
         - TanH
         - ReLU
-        - leaky_ReLU
+        - LeakyRelu
         - Softplus
     """
     n_x = 7
     n_y = 4
     samples = 3
     
-    AFs = [AF.Sigmoid(), AF.TanH(), AF.ReLU(), AF.leaky_ReLU(), AF.Softplus()]
+    AFs = [AF.Sigmoid(), AF.TanH(), AF.ReLU(), AF.LeakyRelu(), AF.Softplus()]
     AFs = [AF.Sigmoid()]
     
     for af in AFs:

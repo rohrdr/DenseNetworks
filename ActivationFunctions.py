@@ -8,6 +8,7 @@ Created on Fri Feb 15 16:05:56 2019
 import numpy as np
 import abc
 
+
 class ActivationFunction(abc.ABC):
     """
     Abstract Class for ActivationFunctions
@@ -19,23 +20,23 @@ class ActivationFunction(abc.ABC):
         return
     
     @abc.abstractmethod
-    def _get_activation(self, X ):
-        
-        
+    def _get_activation(self, x):
+
         return
     
     @abc.abstractmethod
-    def _get_activation_der(self, X):
+    def _get_activation_der(self, x):
         
         return
     
-    def checkArray(self, X):
+    def check_array(self, x):
         
-        assert( isinstance(X, np.ndarray))
-        assert( np.asarray(X).dtype.kind == "f")
+        assert(isinstance(x, np.ndarray))
+        assert(np.asarray(x).dtype.kind == "f")
         
         return
-    
+
+
 class Sigmoid(ActivationFunction):
     """
     The Sigmoid Activation Class (child of Abstract Class Activation Class)
@@ -51,33 +52,33 @@ class Sigmoid(ActivationFunction):
         
         return
     
-    def get_activation(self, X):
+    def get_activation(self, x):
         
-        self.checkArray(X)
+        self.check_array(x)
         
-        Y = self._get_activation(X)
+        y = self._get_activation(x)
         
-        return Y
+        return y
     
-    def _get_activation(self, X):
+    def _get_activation(self, x):
         
-        super()._get_activation(X)
+        super()._get_activation(x)
         
-        return 1.0 / (1.0 + np.exp(-X))
+        return 1.0 / (1.0 + np.exp(-x))
     
-    def get_activation_der(self, X):
+    def get_activation_der(self, x):
         
-        self.checkArray(X)
+        self.check_array(x)
         
-        Y = self._get_activation_der(X)
+        y = self._get_activation_der(x)
         
-        return Y
+        return y
     
-    def _get_activation_der(self, X):
+    def _get_activation_der(self, x):
         
-        super()._get_activation_der(X)
+        super()._get_activation_der(x)
         
-        value = self.get_activation(X)
+        value = self.get_activation(x)
         
         return value * (1 - value)
     
@@ -97,33 +98,33 @@ class TanH(ActivationFunction):
         
         return
     
-    def get_activation(self, X):
+    def get_activation(self, x):
         
-        self.checkArray(X)
+        self.check_array(x)
         
-        Y = self._get_activation(X)
+        y = self._get_activation(x)
         
-        return Y
+        return y
     
-    def _get_activation(self, X):
+    def _get_activation(self, x):
         
-        super()._get_activation(X)
+        super()._get_activation(x)
         
-        return np.tanh(X)
+        return np.tanh(x)
     
-    def get_activation_der(self, X):
+    def get_activation_der(self, x):
         
-        self.checkArray(X)
+        self.check_array(x)
         
-        Y = self._get_activation_der(X)
+        y = self._get_activation_der(x)
         
-        return Y
+        return y
     
-    def _get_activation_der(self, X):
+    def _get_activation_der(self, x):
         
-        super()._get_activation_der(X)
+        super()._get_activation_der(x)
         
-        return 1.0 - np.power(self.get_activation(X), 2)
+        return 1.0 - np.power(self.get_activation(x), 2)
     
  
 class ReLU(ActivationFunction):
@@ -143,38 +144,38 @@ class ReLU(ActivationFunction):
         
         return
     
-    def get_activation(self, X):
+    def get_activation(self, x):
         
-        self.checkArray(X)
+        self.check_array(x)
         
-        Y = self._get_activation(X)
+        y = self._get_activation(x)
         
-        return Y
+        return y
     
-    def _get_activation(self, X):
+    def _get_activation(self, x):
         
-        super()._get_activation(X)
+        super()._get_activation(x)
         
-        return np.where(X > 0.0, X, 0.0)
+        return np.where(x > 0.0, x, 0.0)
     
-    def get_activation_der(self, X):
+    def get_activation_der(self, x):
         
-        self.checkArray(X)
+        self.check_array(x)
         
-        Y = self._get_activation_der(X)
+        y = self._get_activation_der(x)
         
-        return Y
+        return y
     
-    def _get_activation_der(self, X):
+    def _get_activation_der(self, x):
         
-        super()._get_activation_der(X)
+        super()._get_activation_der(x)
         
-        return np.where(X > 0.0, 1.0 , 0.0)
+        return np.where(x > 0.0, 1.0, 0.0)
     
 
-class leaky_ReLU(ActivationFunction):
+class LeakyRelu(ActivationFunction):
     """
-    The leaky_ReLU Activation Class (child of Abstract Class Activation Class)
+    The LeakyRelu Activation Class (child of Abstract Class Activation Class)
     
     g(X) = X, if X >0
            0.01 * X, if X <= 0
@@ -190,35 +191,34 @@ class leaky_ReLU(ActivationFunction):
         
         return
     
-    def get_activation(self, X):
+    def get_activation(self, x):
         
-        self.checkArray(X)
+        self.check_array(x)
         
-        Y = self._get_activation(X)
+        y = self._get_activation(x)
         
-        return Y
+        return y
     
-    def _get_activation(self, X):
+    def _get_activation(self, x):
         
-        super()._get_activation(X)
+        super()._get_activation(x)
         
-        return np.where(X > 0.0, X, 0.01 * X)
+        return np.where(x > 0.0, x, 0.01 * x)
     
-    def get_activation_der(self, X):
+    def get_activation_der(self, x):
         
-        self.checkArray(X)
+        self.check_array(x)
         
-        Y = self._get_activation_der(X)
+        y = self._get_activation_der(x)
         
-        return Y
+        return y
     
-    def _get_activation_der(self, X):
+    def _get_activation_der(self, x):
         
-        super()._get_activation_der(X)
+        super()._get_activation_der(x)
         
-        return np.where(X > 0.0, 1.0 , 0.01)
-    
-    
+        return np.where(x > 0.0, 1.0, 0.01)
+
     
 class Softplus(ActivationFunction):
     """
@@ -236,30 +236,30 @@ class Softplus(ActivationFunction):
         
         return
     
-    def get_activation(self, X):
+    def get_activation(self, x):
         
-        self.checkArray(X)
+        self.check_array(x)
         
-        Y = self._get_activation(X)
+        y = self._get_activation(x)
         
-        return Y
+        return y
     
-    def _get_activation(self, X):
+    def _get_activation(self, x):
         
-        super()._get_activation(X)
+        super()._get_activation(x)
         
-        return np.log(1.0 + np.exp(X))
+        return np.log(1.0 + np.exp(x))
     
-    def get_activation_der(self, X):
+    def get_activation_der(self, x):
         
-        self.checkArray(X)
+        self.check_array(x)
         
-        Y = self._get_activation_der(X)
+        y = self._get_activation_der(x)
         
-        return Y
+        return y
     
-    def _get_activation_der(self, X):
+    def _get_activation_der(self, x):
         
-        super()._get_activation_der(X)
+        super()._get_activation_der(x)
         
-        return 1.0 / (1.0 + np.exp(-X))
+        return 1.0 / (1.0 + np.exp(-x))
