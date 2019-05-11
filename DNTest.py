@@ -7,42 +7,42 @@ Created on Mon Feb 18 15:32:58 2019
 """
 
 import numpy as np
-import DenseNetworks as DN
-import ActivationFunctions as AF
-import CostFunctions as CF
+import DenseNetworks as dn
+import ActivationFunctions as af
+import CostFunctions as cf
 
-def TestSuite():
+
+def test_suite():
     
-    layers = []
-    firstlayer = []
+    layers = list()
+    firstlayer = list()
     firstlayer.append(4)
     firstlayer.append(3)
-    firstlayer.append(AF.ReLU())
+    firstlayer.append(af.ReLU())
     
-    secondlayer = []
+    secondlayer = list()
     secondlayer.append(3)
     secondlayer.append(1)
-    secondlayer.append(AF.Sigmoid())
-
+    secondlayer.append(af.Sigmoid())
 
     layers.append(firstlayer)
     layers.append(secondlayer)
     
-    myDN = DN.denseDN(layers, CF.CrossEntropy())
+    my_dn = dn.DenseNN(layers, cf.CrossEntropy())
     
-    X = np.random.randn(4,2)
+    x = np.random.randn(4, 2)
     
-    Y = np.array([1.0,0.0]).reshape(1,2)
+    y = np.array([1.0, 0.0]).reshape(1, 2)
     
-    print ("X")
-    print (X)
-    print ("Y")
-    print (Y)
+    print("X")
+    print(x)
+    print("Y")
+    print(y)
     
-    loss = myDN.get_loss(X,Y)
+    loss = my_dn.get_loss(x, y)
     
-    print ("loss: " + str(loss))
+    print("loss: " + str(loss))
     
-    myDN.train_dn(X, Y, maxiter = 1000, print_frequency = 100)
+    my_dn.train_dn(x, y, maxiter=1000, print_frequency=100)
     
     return
