@@ -7,7 +7,7 @@ Created on Mon Feb 18 13:10:39 2019
 """
 
 import numpy as np
-import CostFunctions as CF
+import CostFunctions as cf
 from Tools import grad_num, eval_err
 
 
@@ -21,7 +21,7 @@ def test_suite():
     n = 5
     m = 3
     
-    costfunction = CF.CrossEntropy()
+    costfunction = cf.CrossEntropy()
     
     y = np.abs(np.random.randn(n, m)) * 0.1
     yhat = np.abs(np.random.randn(n, m)) * 0.1

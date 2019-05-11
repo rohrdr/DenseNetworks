@@ -7,7 +7,7 @@ Created on Fri Feb 15 17:55:22 2019
 """
 
 import numpy as np
-import ActivationFunctions as AF
+import ActivationFunctions as af
 from Layers import Layer
 from Tools import grad_num, eval_err
 npoints = 4
@@ -31,8 +31,8 @@ def test_suite():
     n_y = 4
     samples = 3
     
-    afs = [AF.Sigmoid(), AF.TanH(), AF.ReLU(), AF.LeakyRelu(), AF.Softplus()]
-    afs = [AF.Sigmoid()]
+    afs = [af.Sigmoid(), af.TanH(), af.ReLU(), af.LeakyRelu(), af.Softplus()]
+    afs = [af.Sigmoid()]
     
     for af in afs:
     

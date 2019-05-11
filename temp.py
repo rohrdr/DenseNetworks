@@ -6,9 +6,9 @@ Created on Mon Feb 18 12:23:52 2019
 @author: rohrdr
 """
 
-import ActivationFunctions as AF
-import CostFunctions as CF
-import DenseNetworks as DN
+import ActivationFunctions as af
+import CostFunctions as cf
+import DenseNetworks as dn
 
 import numpy as np
 import h5py
@@ -83,11 +83,11 @@ np.random.seed(1)
 
 # create input for the neural net identical that of Andrew Ng
 layers = []
-layers.append([train_x.shape[0], 7, AF.ReLU()])
-layers.append([7, 1, AF.Sigmoid()])
+layers.append([train_x.shape[0], 7, af.ReLU()])
+layers.append([7, 1, af.Sigmoid()])
 
 # initiate denseDN
-myDN = DN.DenseNN(layers, CF.CrossEntropy(), learning_rate = 0.0075)
+myDN = dn.DenseNN(layers, cf.CrossEntropy(), learning_rate = 0.0075)
 
 # train the neural net
 myDN.train_dn(train_x, train_y, maxiter = 2500, print_frequency = 100)
@@ -118,11 +118,11 @@ print ("\n\n\n")
 # numbers in Layers line 39 are scaled by / np.sqrt(nx)
 np.random.seed(1)
 layers4 = []
-layers4.append( [ train_x.shape[0], 20, AF.ReLU() ] )
-layers4.append( [ 20, 7, AF.ReLU() ] )
-layers4.append( [ 7, 5, AF.ReLU() ] )
-layers4.append( [ 5, 1, AF.Sigmoid() ] )
-myDN4 = DN.denseDN(layers4, CF.CrossEntropy(), learning_rate = 0.0075)
+layers4.append([train_x.shape[0], 20, af.ReLU()])
+layers4.append([20, 7, af.ReLU()])
+layers4.append([7, 5, af.ReLU()])
+layers4.append([5, 1, af.Sigmoid()])
+myDN4 = dn.denseDN(layers4, cf.CrossEntropy(), learning_rate = 0.0075)
 myDN4.train_dn(train_x, train_y, maxiter = 2500, print_frequency = 100)
 
 Yhat = myDN4.forward_propagation(train_x)
