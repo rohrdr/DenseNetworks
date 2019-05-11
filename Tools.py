@@ -11,42 +11,42 @@ import numpy as np
 threshold = 1e-08
 eps = 1e-08
 
-def eval_err(Z, Y, errmsg):
+
+def eval_err(z, y, errmsg):
     
     result = True
     
-    error = norm(Z-Y)
+    error = norm(z - y)
     error = np.squeeze(error)
     
     if error > threshold:
         
-        print (errmsg)
-        print ("error = " + str(error))
+        print(errmsg)
+        print("error = " + str(error))
         result = False
     
     return result
 
 
-def grad_num(X, func, *args, **kwargs):
+def grad_num(x, func, *args, **kwargs):
     
-    assert(isinstance(X, np.ndarray))
-    assert(X.shape[1] == 1)
-    n = X.shape[0]
+    assert(isinstance(x, np.ndarray))
+    assert(x.shape[1] == 1)
+    n = x.shape[0]
     
-    Y = func(X, *args, **kwargs)
-    grad = np.zeros((n,1))
+    y = func(x, *args, **kwargs)
+    grad = np.zeros((n, 1))
     
     for i in range(n):
         
-        X[i] += eps
-        Y2 = func(X, *args, **kwargs)
-        grad[i] += np.sum(Y2-Y).T/ eps
+        x[i] += eps
+        y2 = func(x, *args, **kwargs)
+        grad[i] += np.sum(y2 - y).T / eps
         
-        X[i] -= 2*eps
-        Y2 = func(X, *args, **kwargs)
-        grad[i] += np.sum(Y-Y2).T/ eps
+        x[i] -= 2 * eps
+        y2 = func(x, *args, **kwargs)
+        grad[i] += np.sum(y - y2).T / eps
         
-        X[i] += eps
+        x[i] += eps
         
     return grad / 2
-        
