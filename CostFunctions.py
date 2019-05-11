@@ -9,6 +9,7 @@ Created on Mon Feb 18 12:37:05 2019
 import numpy as np
 import abc
 
+
 class LossFunction(abc.ABC):
     """
     Abstract Class for LossFunctions
@@ -20,29 +21,29 @@ class LossFunction(abc.ABC):
         return
     
     @abc.abstractmethod
-    def _get_loss(self, Yhat, Y):
-        
-        
+    def _get_loss(self, yhat, y):
+
         return
     
     @abc.abstractmethod
-    def _get_loss_der(self, Yhat, Y):
+    def _get_loss_der(self, yhat, y):
         
         return
+
+    @staticmethod
+    def check_arrays(self, yhat, y):
     
-    def check_arrays(self, Yhat, Y):
-    
-        assert( isinstance(Y, np.ndarray) )
-        assert( (np.asarray(Y).dtype.kind == "f") or (np.asarray(Y).dtype.kind == "i") )
+        assert(isinstance(y, np.ndarray))
+        assert((np.asarray(y).dtype.kind == "f") or (np.asarray(y).dtype.kind == "i"))
         
-        assert( isinstance(Yhat, np.ndarray))
-        assert( np.asarray(Yhat).dtype.kind == "f" )
+        assert(isinstance(yhat, np.ndarray))
+        assert(np.asarray(yhat).dtype.kind == "f")
         
-        assert( Y.shape == Yhat.shape )
-        assert( len(Y.shape) == 2)
+        assert(y.shape == yhat.shape)
+        assert(len(y.shape) == 2)
         
-        assert( np.all(Yhat >= 0.0) )
-        assert( np.all(Yhat <= 1.0) )
+        assert(np.all(yhat >= 0.0))
+        assert(np.all(yhat <= 1.0))
     
         return
     
@@ -66,37 +67,36 @@ class CrossEntropy(LossFunction):
         
         return
     
-    def get_loss(self, Yhat, Y):
+    def get_loss(self, yhat, y):
         
-        self.check_arrays(Yhat, Y)
+        self.check_arrays(yhat, y)
         
-        N = Yhat.shape[1]
-        Z = self._get_loss(Yhat, Y, N)
+        n = yhat.shape[1]
+        z = self._get_loss(yhat, y, n)
         
-        return np.squeeze(Z)
+        return np.squeeze(z)
     
-    def _get_loss(self, Yhat, Y, N):
+    def _get_loss(self, yhat, y, n):
         
-        Z = super()._get_loss(Yhat, Y)
+        z = super()._get_loss(yhat, y)
         
-        Z = - ( Y * np.log(Yhat) + (1.0 - Y) * np.log(1.0 - Yhat) ) / N
+        z = - (y * np.log(yhat) + (1.0 - y) * np.log(1.0 - yhat)) / n
         
-        return Z.sum(axis = 1, keepdims = True)
+        return z.sum(axis=1, keepdims=True)
     
-    def get_loss_der(self, Yhat, Y):
+    def get_loss_der(self, yhat, y):
         
-        self.check_arrays(Yhat, Y)
+        self.check_arrays(yhat, y)
         
-        Z = self._get_loss_der(Yhat, Y)
+        z = self._get_loss_der(yhat, y)
         
-        return Z
+        return z
     
-    def _get_loss_der(self, Yhat, Y):
+    def _get_loss_der(self, yhat, y):
         
-        Z = super()._get_loss(Yhat, Y)
+        z = super()._get_loss(yhat, y)
         
-        Z = - ( (Y / Yhat) - (1.0 - Y)/(1.0 - Yhat) )
+        z = - ((y / yhat) - (1.0 - y) / (1.0 - yhat))
         
-        return Z
-    
-    
+        return z
+
