@@ -28,7 +28,8 @@ class ActivationFunction(abc.ABC):
     def _get_activation_der(self, x):
         
         return
-    
+
+    @staticmethod
     def check_array(self, x):
         
         assert(isinstance(x, np.ndarray))
