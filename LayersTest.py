@@ -12,7 +12,8 @@ from Layers import Layer
 from Tools import grad_num, eval_err
 npoints = 4
 
-def TestSuite():
+
+def test_suite():
     """
     Runs all the tests available:
         - checks the derivative dA
@@ -30,67 +31,67 @@ def TestSuite():
     n_y = 4
     samples = 3
     
-    AFs = [AF.Sigmoid(), AF.TanH(), AF.ReLU(), AF.LeakyRelu(), AF.Softplus()]
-    AFs = [AF.Sigmoid()]
+    afs = [AF.Sigmoid(), AF.TanH(), AF.ReLU(), AF.LeakyRelu(), AF.Softplus()]
+    afs = [AF.Sigmoid()]
     
-    for af in AFs:
+    for af in afs:
     
-        Lay = Layer(n_x,n_y,af)
+        lay = Layer(n_x, n_y, af)
      
-        X = np.random.randn(n_x,samples)
-        Y = Lay.get_Y(X)
+        x = np.random.randn(n_x, samples)
+        y = lay.get_Y(x)
 
-        dX = np.ones((n_y,samples))
-        dA, dW, db = Lay.get_grad(dX)
+        d_x = np.ones((n_y, samples))
+        d_a, d_w, d_b = lay.get_grad(d_x)
         
-        newX = X.reshape(n_x*samples, 1)
-        num = grad_num(newX, TestX, Lay)
-        err = eval_err(num, dA.reshape(n_x*samples,1), "error in X")
+        new_x = x.reshape(n_x*samples, 1)
+        num = grad_num(new_x, test_x, lay)
+        err = eval_err(num, d_a.reshape(n_x*samples,1), "error in X")
         
         if not err:
-            print ("dA:     " + str(dA.shape))
-            print (dA)
+            print ("dA:     " + str(d_a.shape))
+            print (d_a)
             print ("num dA: " + str(num.reshape(n_x,samples).shape))
             print (num.reshape(n_x,samples))
     
-        newW = Lay.W.reshape(n_x*n_y,1)
-        num = grad_num(newW, TestdW, Lay) / samples
-        err = eval_err(num, dW.reshape(n_x*n_y,1), "error in W")
+        new_w = lay.W.reshape(n_x*n_y,1)
+        num = grad_num(new_w, testd_w, lay) / samples
+        err = eval_err(num, d_w.reshape(n_x*n_y,1), "error in W")
 
         if not err:
-            print ("dW:     " + str(dW.shape))
-            print (dW)
+            print ("dW:     " + str(d_w.shape))
+            print (d_w)
             print ("num dW: " + str(num.reshape(n_y,n_x).shape))
             print (num.reshape(n_y,n_x))
 
-        newb = Lay.b
-        num = grad_num(newb, Testdb, Lay) / samples
-        err = eval_err(num, db, "error in b")
+        new_b = lay.b
+        num = grad_num(new_b, testd_b, lay) / samples
+        err = eval_err(num, d_b, "error in b")
 
         if not err:
-            print ("db:     " + str(db.shape))
-            print (db)
+            print ("db:     " + str(d_b.shape))
+            print (d_b)
             print ("num dA: " + str(num.shape))
             print (num)
     
     return
 
-def TestdW(W, Lay):
+def testd_w(w, lay):
     
-    newW = W.reshape(Lay.ny, Lay.nx)
+    new_w = w.reshape(lay.ny, lay.nx)
     
-    Lay.W = newW
+    lay.W = new_w
     
-    return Lay.get_Y(Lay.X)
+    return lay.get_Y(lay.X)
 
-def Testdb(b, Lay):
+def testd_b(b, lay):
         
-    Lay.b = b
+    lay.b = b
     
-    return Lay.get_Y(Lay.X)
+    return lay.get_Y(lay.X)
 
-def TestX(X, Lay):
+def test_x(x, lay):
     
-    newX = X.reshape(Lay.nx, int(X.shape[0] / Lay.nx))
+    newX = x.reshape(lay.nx, int(x.shape[0] / lay.nx))
     
-    return Lay.get_Y(newX)
+    return lay.get_Y(newX)
