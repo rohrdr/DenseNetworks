@@ -21,26 +21,27 @@ class NeuralNetworks(abc.ABC):
         return
     
     @abc.abstractmethod
-    def _forwardPropagation(self):
+    def _forward_propagation(self):
         
         vec = None
         
         return vec
     
     @abc.abstractmethod
-    def _backwardPropagation(self):
+    def _backward_propagation(self):
         
         return
     
     @abc.abstractmethod
-    def _check_arrays(self, X):
+    def _check_arrays(self, x):
     
-        assert( isinstance(X, np.ndarray) )
-        assert( (np.asarray(X).dtype.kind == "f") or (np.asarray(X).dtype.kind == "i") )
+        assert(isinstance(x, np.ndarray))
+        assert((np.asarray(x).dtype.kind == "f") or (np.asarray(x).dtype.kind == "i"))
         
         return
 
-class denseNN(NeuralNetworks):
+
+class DenseNN(NeuralNetworks):
     """
     Neural Network with dense layers
     the class implements
@@ -52,13 +53,13 @@ class denseNN(NeuralNetworks):
     
     """
     
-    def __init__(self, dimensions, lossFunc, learning_rate = 0.02):
+    def __init__(self, dimensions, loss_func, learning_rate=0.02):
         
         assert(isinstance(dimensions, list))
-        assert(isinstance(lossFunc, LossFunction))
+        assert(isinstance(loss_func, LossFunction))
         assert(isinstance(learning_rate, np.float))
         
-        self.lossFunc = lossFunc
+        self.lossFunc = loss_func
         
         super().__init__()
         
@@ -75,138 +76,136 @@ class denseNN(NeuralNetworks):
             
             assert (len(lay) == 3)
             nx, ny, actfunc = lay
-            assert( isinstance( nx, int))
-            assert( oldny == nx) # do the dimensions check?
-            assert( isinstance( ny, int))
-            assert( isinstance( actfunc, ActivationFunction) )
+            assert(isinstance(nx, int))
+            assert(oldny == nx)  # do the dimensions check?
+            assert(isinstance(ny, int))
+            assert(isinstance(actfunc, ActivationFunction))
             self.layers.append(Layer(nx, ny, actfunc))
             oldny = ny
         
         return
     
-    def get_loss(self, X, Y):
+    def get_loss(self, x, y):
         """
-        calculates the loss/cost with respect to Y
+        calculates the loss/cost with respect to y
 
         """
         
-        self._check_arrays(X)
-        self._check_arrays(Y)
-        assert( X.shape[0] == self.xdim)
-        assert( Y.shape[0] == self.ydim)
-        assert( len(X.shape) >=2)
+        self._check_arrays(x)
+        self._check_arrays(y)
+        assert(x.shape[0] == self.xdim)
+        assert(y.shape[0] == self.ydim)
+        assert(len(x.shape) >= 2)
         
-        vec = self._forwardPropagation(X)
+        vec = self._forward_propagation(x)
         
-        assert (vec.shape[0] == Y.shape[0])
+        assert (vec.shape[0] == y.shape[0])
         
-        loss = self.lossFunc.get_loss(vec, Y)
+        loss = self.lossFunc.get_loss(vec, y)
         
         return loss
     
-    def forwardPropagation(self, X):
+    def forward_propagation(self, x):
         """
-        the forward propagation with feature vector X
+        the forward propagation with feature vector x
         
         """
         
-        self._check_arrays(X)
-        assert( X.shape[0] == self.xdim)
-        assert( len(X.shape) >=2)
+        self._check_arrays(x)
+        assert(x.shape[0] == self.xdim)
+        assert(len(x.shape) >= 2)
         
-        vec = self._forwardPropagation(X)
+        vec = self._forward_propagation(x)
         
         return vec
     
-    def _forwardPropagation(self, X):
+    def _forward_propagation(self, x):
         
-        super()._forwardPropagation()
+        super()._forward_propagation()
 
-        vec = X
+        vec = x
         for lay in self.layers:
             vec = lay.get_y(vec)
         
         return vec
     
-    def backwardPropagation(self, Yhat, Y):
+    def backward_propagation(self, yhat, y):
         """
-        the backward propagation with vectors Yhat and Y
+        the backward propagation with vectors yhat and y
         
         """
         
-        self._check_arrays(Yhat)
-        self._check_arrays(Y)
+        self._check_arrays(yhat)
+        self._check_arrays(y)
         
-        dWs, dbs = self._backwardPropagation(Yhat, Y)
+        d_ws, d_bs = self._backward_propagation(yhat, y)
         
-        return dWs, dbs
+        return d_ws, d_bs
     
-    def _backwardPropagation(self, Yhat, Y):
+    def _backward_propagation(self, yhat, y):
         
-        super()._backwardPropagation()
+        super()._backward_propagation()
         
-        vec = self.lossFunc.get_loss_der(Yhat, Y)
+        vec = self.lossFunc.get_loss_der(yhat, y)
         
-        dWs = []
-        dbs = []
+        d_ws = []
+        d_bs = []
         
         self.layers.reverse()
         
         for lay in self.layers:
-                vec, dW, db = lay.get_grad(vec)
-                dWs.append(dW)
-                dbs.append(db)
+            vec, d_w, d_b = lay.get_grad(vec)
+            d_ws.append(d_w)
+            d_bs.append(d_b)
                 
         self.layers.reverse()
-        dWs.reverse()
-        dbs.reverse()
+        d_ws.reverse()
+        d_bs.reverse()
         
-        return dWs, dbs
+        return d_ws, d_bs
     
-    def trainDN(self, X, Y, maxiter = 20, print_frequency = 10):
+    def train_dn(self, x, y, maxiter=20, print_frequency=10):
         """
-        train the network starting at X and labels Y
+        train the network starting at x and labels y
         
         """
         
-        self._check_arrays(Y)
-        self._check_arrays(X)
-        assert( X.shape[0] == self.xdim)
-        assert( len(X.shape) >=2)
-        assert( isinstance(print_frequency, np.int))
+        self._check_arrays(y)
+        self._check_arrays(x)
+        assert(x.shape[0] == self.xdim)
+        assert(len(x.shape) >= 2)
+        assert(isinstance(print_frequency, np.int))
         
-        for iter in range(maxiter):
-            Yhat = self._forwardPropagation(X)
-            loss = self.lossFunc.get_loss(Yhat, Y)
-            dWs, dbs = self._backwardPropagation(Yhat, Y)
+        for it in range(maxiter):
+            yhat = self._forward_propagation(x)
+            loss = self.lossFunc.get_loss(yhat, y)
+            d_ws, d_bs = self._backward_propagation(yhat, y)
         
             for i, lay in enumerate(self.layers):
-                lay.update_wb(-self.learning_rate * dWs[i], -self.learning_rate * dbs[i])
+                lay.update_wb(-self.learning_rate * d_ws[i], -self.learning_rate * d_bs[i])
                 
-            if ( iter%print_frequency == 0):
-                print ("Iteration: " + str(iter) + "   cost: " + str(loss))
+            if it % print_frequency == 0:
+                print("Iteration: " + str(it) + "   cost: " + str(loss))
                 
-        print ("\n==================================")
-        print ("   FINAL ITERATION RESULTS")        
-        print ("Iteration: " + str(iter) + "   cost: " + str(loss) + "\n")
+        print("\n==================================")
+        print("   FINAL ITERATION RESULTS")
+        print("Iteration: " + str(it) + "   cost: " + str(loss) + "\n")
         
         return
     
-    def get_Wandb(self):
+    def get_wandb(self):
         
-        Ws = []
+        ws = []
         bs = []
         
-        for Lay in self.layers:
-            Ws.append( Lay.W )
-            bs.append( Lay.b )
+        for lay in self.layers:
+            ws.append(lay.W)
+            bs.append(lay.b)
         
-        return Ws, bs
+        return ws, bs
     
-    def _check_arrays(self, X):
+    def _check_arrays(self, x):
         
-        super()._check_arrays(X)
+        super()._check_arrays(x)
         
         return
-    
-    

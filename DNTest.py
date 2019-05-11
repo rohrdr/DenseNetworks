@@ -43,6 +43,6 @@ def TestSuite():
     
     print ("loss: " + str(loss))
     
-    myDN.trainDN(X, Y, maxiter = 1000, print_frequency = 100)
+    myDN.train_dn(X, Y, maxiter = 1000, print_frequency = 100)
     
     return

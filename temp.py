@@ -87,12 +87,12 @@ layers.append([train_x.shape[0], 7, AF.ReLU()])
 layers.append([7, 1, AF.Sigmoid()])
 
 # initiate denseDN
-myDN = DN.denseNN(layers, CF.CrossEntropy(), learning_rate = 0.0075)
+myDN = DN.DenseNN(layers, CF.CrossEntropy(), learning_rate = 0.0075)
 
 # train the neural net
-myDN.trainDN(train_x, train_y, maxiter = 2500, print_frequency = 100)
+myDN.train_dn(train_x, train_y, maxiter = 2500, print_frequency = 100)
 
-Yhat = myDN.forwardPropagation(train_x)
+Yhat = myDN.forward_propagation(train_x)
 cost = myDN.lossFunc.get_loss(Yhat, train_y)
 
 Yhatclass = np.where(Yhat > 0.5, 1, 0)
@@ -101,7 +101,7 @@ print ("The cost after training the network is " + str(cost))
 print ("Accuracy = " + str(np.sum((Yhatclass == train_y) / m_train)))
 
 # the test set
-Yhat_test = myDN.forwardPropagation(test_x)
+Yhat_test = myDN.forward_propagation(test_x)
 cost_test = myDN.lossFunc.get_loss(Yhat_test, test_y)
 Yhatclass_test = np.where(Yhat_test > 0.5, 1, 0)
 print ("The cost of the test set is " + str(cost_test))
@@ -123,9 +123,9 @@ layers4.append( [ 20, 7, AF.ReLU() ] )
 layers4.append( [ 7, 5, AF.ReLU() ] )
 layers4.append( [ 5, 1, AF.Sigmoid() ] )
 myDN4 = DN.denseDN(layers4, CF.CrossEntropy(), learning_rate = 0.0075)
-myDN4.trainDN(train_x, train_y, maxiter = 2500, print_frequency = 100)
+myDN4.train_dn(train_x, train_y, maxiter = 2500, print_frequency = 100)
 
-Yhat = myDN4.forwardPropagation(train_x)
+Yhat = myDN4.forward_propagation(train_x)
 cost = myDN4.lossFunc.get_loss(Yhat, train_y)
 
 Yhatclass = np.where(Yhat > 0.5, 1, 0)
@@ -134,7 +134,7 @@ print ("The cost after training the network is " + str(cost))
 print ("Accuracy = " + str(np.sum((Yhatclass == train_y) / m_train)))
 
 # the test set
-Yhat_test = myDN4.forwardPropagation(test_x)
+Yhat_test = myDN4.forward_propagation(test_x)
 cost_test = myDN4.lossFunc.get_loss(Yhat_test, test_y)
 Yhatclass_test = np.where(Yhat_test > 0.5, 1, 0)
 print ("The cost of the test set is " + str(cost_test))
