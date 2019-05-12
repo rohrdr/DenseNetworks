@@ -32,30 +32,20 @@ def test_suite():
     layers.append(secondlayer)
     
     my_dn = dn.DenseNN(layers, cf.CrossEntropy())
-    
     x = np.random.randn(4, 2)
-    
     y = np.array([1.0, 0.0]).reshape(1, 2)
-    
-    print("X")
-    print(x)
-    print("Y")
-    print(y)
-    
     loss = my_dn.get_loss(x, y)
     
-    print("loss: " + str(loss))
-    
-    my_dn.train_dn(x, y, maxiter=1000, print_frequency=100)
+    my_dn.train_dn(x, y, maxiter=1000, print_frequency=10000, print_flag=False)
 
     y_target = np.array([[0.98678318, 0.16073323]])
     yhat = my_dn.forward_propagation(x)
 
     res = eval_err(y_target, yhat, errmsg='error in train_dn')
 
-    if res: print('All tests ran successfully')
+    if res: print('All tests on Dense Networks ran successfully')
     
-    return
+    return res
 
 
 if __name__ == '__main__':

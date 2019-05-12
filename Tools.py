@@ -17,7 +17,7 @@ def eval_err(z, y, errmsg):
     result = True
     
     error = norm(z - y)
-    error = np.squeeze(error)
+    error = np.squeeze(error) / np.linalg.norm(z)
     
     if error > threshold:
         

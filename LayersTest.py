@@ -77,7 +77,7 @@ def test_suite():
             print("num dA: " + str(num.shape))
             print(num)
 
-    if res: print('All tests ran successfully')
+    if res: print('All tests on Layers ran successfully')
 
     return res
 

@@ -17,7 +17,8 @@ def test_suite():
         - Cross Entropy (cost and derivative)
         
     """
-    
+
+    res = True
     n = 15
     m = 13
     
@@ -36,6 +37,7 @@ def test_suite():
         num = grad_num(new_yhat, costfunction.get_loss, new_y)
         err = eval_err(num, der, "error in the " + str(i) + "-th column of Y")
         if not err:
+            res = False
             print("iteration " + str(i))
             print("analytical derivative")
             print(der)
@@ -51,9 +53,15 @@ def test_suite():
     err = eval_err(ders, der, errmsg)
             
     if not err:
+        res = False
         print("all at once")
         print(der)
         print("one by one")
         print(ders)
-    
-    return
+
+    if res: print('All tests on Cost Functions ran successfully')
+
+    return res
+
+if __name__ == '__main__':
+    test_suite()

@@ -28,35 +28,44 @@ def test_suite():
         - leaky_ReLUTest
         - SoftplusTest
     """
-    
+
+    res = True
+
     x = np.random.randn(npoints, nsamples) * 0.01
-    
+
     ret = sigmoid_test(x)
-    
-    print("The results of the SigmoidTest are")
-    print(ret)
+    if not np.array(ret).any():
+        res = False
+        print("The results of the SigmoidTest are")
+        print(ret)
     
     ret = tanh_test(x)
-    
-    print("The results of the TanHTest are")
-    print(ret)
+    if not np.array(ret).any():
+        res = False
+        print("The results of the TanHTest are")
+        print(ret)
     
     ret = relu_test(x)
-    
-    print("The results of the ReLUTest are")
-    print(ret)
+    if not np.array(ret).any():
+        res = False
+        print("The results of the ReLUTest are")
+        print(ret)
     
     ret = leaky_relu_test(x)
-    
-    print("The results of the leaky_ReLUTest are")
-    print(ret)
+    if not np.array(ret).any():
+        res = False
+        print("The results of the leaky_ReLUTest are")
+        print(ret)
     
     ret = softplus_test(x)
-    
-    print("The results of the Softplus are")
-    print(ret)
-    
-    return
+    if not np.array(ret).any():
+        res = False
+        print("The results of the Softplus are")
+        print(ret)
+
+    if res: print('All tests on Activation Functions ran successfully')
+
+    return res
 
 
 def sigmoid_test(x):

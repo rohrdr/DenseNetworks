@@ -164,7 +164,7 @@ class DenseNN(NeuralNetworks):
         
         return d_ws, d_bs
     
-    def train_dn(self, x, y, maxiter=20, print_frequency=10):
+    def train_dn(self, x, y, maxiter=20, print_frequency=10, print_flag=True):
         """
         train the network starting at x and labels y
         
@@ -184,12 +184,13 @@ class DenseNN(NeuralNetworks):
             for i, lay in enumerate(self.layers):
                 lay.update_wb(-self.learning_rate * d_ws[i], -self.learning_rate * d_bs[i])
                 
-            if it % print_frequency == 0:
+            if (it % print_frequency == 0) & print_flag:
                 print("Iteration: " + str(it) + "   cost: " + str(loss))
-                
-        print("\n==================================")
-        print("   FINAL ITERATION RESULTS")
-        print("Iteration: " + str(it) + "   cost: " + str(loss) + "\n")
+
+        if print_flag:
+            print("\n==================================")
+            print("   FINAL ITERATION RESULTS")
+            print("Iteration: " + str(it) + "   cost: " + str(loss) + "\n")
         
         return
     
