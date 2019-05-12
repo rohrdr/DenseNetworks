@@ -7,10 +7,9 @@ Created on Fri Feb 15 17:55:22 2019
 """
 
 import numpy as np
-import ActivationFunctions as af
+import ActivationFunctions as afuncs
 from Layers import Layer
 from Tools import grad_num, eval_err
-npoints = 4
 
 
 def test_suite():
@@ -31,11 +30,12 @@ def test_suite():
     n_y = 4
     samples = 3
     
-    afs = [af.Sigmoid(), af.TanH(), af.ReLU(), af.LeakyRelu(), af.Softplus()]
-    afs = [af.Sigmoid()]
+    afs = [afuncs.Sigmoid(), afuncs.TanH(), afuncs.ReLU(), afuncs.LeakyRelu(), afuncs.Softplus()]
     
     for af in afs:
-    
+
+        res = True
+
         lay = Layer(n_x, n_y, af)
      
         x = np.random.randn(n_x, samples)
@@ -46,35 +46,41 @@ def test_suite():
         
         new_x = x.reshape(n_x*samples, 1)
         num = grad_num(new_x, test_x, lay)
-        err = eval_err(num, d_a.reshape(n_x*samples,1), "error in X")
+        err = eval_err(num, d_a.reshape(n_x*samples, 1), "error in X")
         
         if not err:
-            print ("dA:     " + str(d_a.shape))
-            print (d_a)
-            print ("num dA: " + str(num.reshape(n_x,samples).shape))
-            print (num.reshape(n_x,samples))
+            res = False
+            print("dA:     " + str(d_a.shape))
+            print(d_a)
+            print("num dA: " + str(num.reshape(n_x, samples).shape))
+            print(num.reshape(n_x, samples))
     
-        new_w = lay.W.reshape(n_x*n_y,1)
+        new_w = lay.W.reshape(n_x*n_y, 1)
         num = grad_num(new_w, testd_w, lay) / samples
-        err = eval_err(num, d_w.reshape(n_x*n_y,1), "error in W")
+        err = eval_err(num, d_w.reshape(n_x*n_y, 1), "error in W")
 
         if not err:
-            print ("dW:     " + str(d_w.shape))
-            print (d_w)
-            print ("num dW: " + str(num.reshape(n_y,n_x).shape))
-            print (num.reshape(n_y,n_x))
+            res = False
+            print("dW:     " + str(d_w.shape))
+            print(d_w)
+            print("num dW: " + str(num.reshape(n_y, n_x).shape))
+            print(num.reshape(n_y, n_x))
 
         new_b = lay.b
         num = grad_num(new_b, testd_b, lay) / samples
         err = eval_err(num, d_b, "error in b")
 
         if not err:
-            print ("db:     " + str(d_b.shape))
-            print (d_b)
-            print ("num dA: " + str(num.shape))
-            print (num)
-    
-    return
+            res = False
+            print("db:     " + str(d_b.shape))
+            print(d_b)
+            print("num dA: " + str(num.shape))
+            print(num)
+
+    if res: print('All tests ran successfully')
+
+    return res
+
 
 def testd_w(w, lay):
     
@@ -84,14 +90,19 @@ def testd_w(w, lay):
     
     return lay.get_y(lay.X)
 
+
 def testd_b(b, lay):
         
     lay.b = b
     
     return lay.get_y(lay.X)
 
+
 def test_x(x, lay):
     
-    newX = x.reshape(lay.nx, int(x.shape[0] / lay.nx))
+    new_x = x.reshape(lay.nx, int(x.shape[0] / lay.nx))
     
-    return lay.get_y(newX)
+    return lay.get_y(new_x)
+
+if __name__ == '__main__':
+    test_suite()
