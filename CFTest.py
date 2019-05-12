@@ -18,8 +18,8 @@ def test_suite():
         
     """
     
-    n = 5
-    m = 3
+    n = 15
+    m = 13
     
     costfunction = cf.CrossEntropy()
     
