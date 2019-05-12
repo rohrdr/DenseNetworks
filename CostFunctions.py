@@ -69,7 +69,7 @@ class CrossEntropy(LossFunction):
     
     def get_loss(self, yhat, y):
         
-        self.check_arrays(yhat, y)
+        self.check_arrays(self, yhat, y)
         
         n = yhat.shape[1]
         z = self._get_loss(yhat, y, n)
@@ -86,7 +86,7 @@ class CrossEntropy(LossFunction):
     
     def get_loss_der(self, yhat, y):
         
-        self.check_arrays(yhat, y)
+        self.check_arrays(self, yhat, y)
         
         z = self._get_loss_der(yhat, y)
         
