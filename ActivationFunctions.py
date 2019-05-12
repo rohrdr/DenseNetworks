@@ -55,7 +55,7 @@ class Sigmoid(ActivationFunction):
     
     def get_activation(self, x):
         
-        self.check_array(x)
+        self.check_array(self, x)
         
         y = self._get_activation(x)
         
@@ -69,7 +69,7 @@ class Sigmoid(ActivationFunction):
     
     def get_activation_der(self, x):
         
-        self.check_array(x)
+        self.check_array(self, x)
         
         y = self._get_activation_der(x)
         
@@ -101,7 +101,7 @@ class TanH(ActivationFunction):
     
     def get_activation(self, x):
         
-        self.check_array(x)
+        self.check_array(self, x)
         
         y = self._get_activation(x)
         
@@ -115,7 +115,7 @@ class TanH(ActivationFunction):
     
     def get_activation_der(self, x):
         
-        self.check_array(x)
+        self.check_array(self, x)
         
         y = self._get_activation_der(x)
         
@@ -147,7 +147,7 @@ class ReLU(ActivationFunction):
     
     def get_activation(self, x):
         
-        self.check_array(x)
+        self.check_array(self, x)
         
         y = self._get_activation(x)
         
@@ -161,7 +161,7 @@ class ReLU(ActivationFunction):
     
     def get_activation_der(self, x):
         
-        self.check_array(x)
+        self.check_array(self, x)
         
         y = self._get_activation_der(x)
         
@@ -194,7 +194,7 @@ class LeakyRelu(ActivationFunction):
     
     def get_activation(self, x):
         
-        self.check_array(x)
+        self.check_array(self, x)
         
         y = self._get_activation(x)
         
@@ -208,7 +208,7 @@ class LeakyRelu(ActivationFunction):
     
     def get_activation_der(self, x):
         
-        self.check_array(x)
+        self.check_array(self, x)
         
         y = self._get_activation_der(x)
         
@@ -239,7 +239,7 @@ class Softplus(ActivationFunction):
     
     def get_activation(self, x):
         
-        self.check_array(x)
+        self.check_array(self, x)
         
         y = self._get_activation(x)
         
@@ -253,7 +253,7 @@ class Softplus(ActivationFunction):
     
     def get_activation_der(self, x):
         
-        self.check_array(x)
+        self.check_array(self, x)
         
         y = self._get_activation_der(x)
         

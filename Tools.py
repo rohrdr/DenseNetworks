@@ -8,7 +8,7 @@ Created on Sat Feb 16 09:16:42 2019
 from numpy.linalg import norm
 import numpy as np
 
-threshold = 1e-08
+threshold = 1e-07
 eps = 1e-08
 
 
