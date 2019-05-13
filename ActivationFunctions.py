@@ -38,6 +38,17 @@ class ActivationFunction(abc.ABC):
         return
 
 
+class invertableActivationFunction(abc.ABC, ActivationFunction):
+
+    @abc.abstractmethod
+    def _get_inverse_activation(self, x):
+
+        return
+    @abc.abstractmethod
+    def _get_inverse_activation_der(self, x):
+
+        return
+
 class Sigmoid(ActivationFunction):
     """
     The Sigmoid Activation Class (child of Abstract Class Activation Class)
@@ -172,9 +183,9 @@ class ReLU(ActivationFunction):
         super()._get_activation_der(x)
         
         return np.where(x > 0.0, 1.0, 0.0)
-    
 
-class LeakyRelu(ActivationFunction):
+
+class LeakyRelu(invertableActivationFunction):
     """
     The LeakyRelu Activation Class (child of Abstract Class Activation Class)
     
@@ -220,7 +231,35 @@ class LeakyRelu(ActivationFunction):
         
         return np.where(x > 0.0, 1.0, 0.01)
 
-    
+    def _get_inverse_activation(self, x):
+
+        super()._get_inverse_activation(self, x)
+
+        return np.where(x > 0, x, 100 * x)
+
+    def get_inverse_activation(self, x):
+
+        self.check_array(self, x)
+
+        y = self._get_inverse_activation(self, x)
+
+        return y
+
+    def _get_inverse_activation_der(self, x):
+
+        super()._get_inverse_activation_der(self, x)
+
+        return np.where(x > 0, 1, 100)
+
+    def get_inverse_activation_der(self, x):
+
+        self.check_array(self, x)
+
+        y = self._get_inverse_activation_der(self, x)
+
+        return y
+
+
 class Softplus(ActivationFunction):
     """
     The Softplus Activation Class (child of Abstract Class Activation Class)
