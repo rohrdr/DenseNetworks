@@ -195,6 +195,26 @@ def leaky_relu_test(x):
         res = eval_err(z, y, errmsg)
     
         return res
+
+    def test_inverse_activation(x, l_re_l):
+        y = l_re_l.get_inverse_activation(x)
+        z = np.where(x <= 0.0, 100.0 * x, x)
+
+        errmsg = err1 + " function of the inverse LeakyRelu" + err2
+
+        res = eval_err(z, y, errmsg)
+
+        return res
+
+    def test_inverse_derivative(x, l_re_l):
+        y = l_re_l.get_inverse_activation_der(x)
+        z = np.where(x <= 0.0, 100.0, 1.0)
+
+        errmsg = err1 + "_der function of the inverse LeakyRelu" + err2
+
+        res = eval_err(z, y, errmsg)
+
+        return res
     
     result = []
     l_re_l = LeakyRelu()
@@ -202,6 +222,9 @@ def leaky_relu_test(x):
     result.append(test_activation(x, l_re_l))
     result.append(test_derivative(x, l_re_l))
     result.append(num_derivative(x, l_re_l))
+    result.append(test_inverse_activation(x, l_re_l))
+    result.append(test_inverse_derivative(x, l_re_l))
+    result.append(num_inv_derivative(x, l_re_l))
         
     return result 
 
@@ -253,10 +276,29 @@ def num_derivative(x, actfunc):
     
     new_z = z.reshape((nx, ny))
     
-    errmsg = "error in the numerical gradient of" + str(actfunc)
+    errmsg = "error in the numerical gradient of " + str(actfunc)
     
     res = eval_err(new_z, y, errmsg)
     
+    return res
+
+
+def num_inv_derivative(x, actfunc):
+    y = actfunc.get_inverse_activation_der(x)
+
+    nx = x.shape[0]
+    ny = x.shape[1]
+
+    new_x = x.reshape((nx * ny, 1))
+
+    z = grad_num(new_x, actfunc.get_inverse_activation)
+
+    new_z = z.reshape((nx, ny))
+
+    errmsg = "error in the numerical gradient of inverse " + str(actfunc)
+
+    res = eval_err(new_z, y, errmsg)
+
     return res
     
 

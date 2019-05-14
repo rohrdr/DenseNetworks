@@ -38,7 +38,7 @@ class ActivationFunction(abc.ABC):
         return
 
 
-class invertableActivationFunction(abc.ABC, ActivationFunction):
+class invertableActivationFunction(ActivationFunction):
 
     @abc.abstractmethod
     def _get_inverse_activation(self, x):
@@ -233,7 +233,7 @@ class LeakyRelu(invertableActivationFunction):
 
     def _get_inverse_activation(self, x):
 
-        super()._get_inverse_activation(self, x)
+        super()._get_inverse_activation(x)
 
         return np.where(x > 0, x, 100 * x)
 
@@ -241,13 +241,13 @@ class LeakyRelu(invertableActivationFunction):
 
         self.check_array(self, x)
 
-        y = self._get_inverse_activation(self, x)
+        y = self._get_inverse_activation(x)
 
         return y
 
     def _get_inverse_activation_der(self, x):
 
-        super()._get_inverse_activation_der(self, x)
+        super()._get_inverse_activation_der(x)
 
         return np.where(x > 0, 1, 100)
 
@@ -255,7 +255,7 @@ class LeakyRelu(invertableActivationFunction):
 
         self.check_array(self, x)
 
-        y = self._get_inverse_activation_der(self, x)
+        y = self._get_inverse_activation_der(x)
 
         return y
 
