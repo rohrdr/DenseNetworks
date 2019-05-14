@@ -15,7 +15,7 @@ def test_suite():
     res.append(DNTest.test_suite())
 
     if np.array(res).all():
-        print('ALL TESTS ran successfully')
+        print('ALL TESTS RAN SUCCESSFULLY')
 
 
 if __name__ == '__main__':

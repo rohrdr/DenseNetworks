@@ -44,10 +44,12 @@ class invertableActivationFunction(ActivationFunction):
     def _get_inverse_activation(self, x):
 
         return
+
     @abc.abstractmethod
     def _get_inverse_activation_der(self, x):
 
         return
+
 
 class Sigmoid(ActivationFunction):
     """
