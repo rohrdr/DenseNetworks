@@ -8,6 +8,7 @@ Created on Fri Feb 15 17:55:08 2019
 
 import numpy as np
 from ActivationFunctions import ActivationFunction
+from ActivationFunctions import invertableActivationFunction
 
 
 class Layer:
@@ -84,4 +85,15 @@ class Layer:
         self.W += d_w
         self.b += d_b
         
+        return
+
+
+class invertableLayer(Layer):
+
+    def __init__(self, nx, ny, activation_function):
+
+        assert(isinstance(activation_function, invertableActivationFunction))
+
+        super().__init__(self, nx, ny, activation_function)
+
         return
